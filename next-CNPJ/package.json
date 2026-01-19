@@ -1,0 +1,16 @@
+{
+  "name": "next-cnpj",
+  "version": "1.0.0",
+  "description": "NuGet package for robust CNPJ validation with support for alphanumeric format",
+  "private": true,
+  "devDependencies": {
+    "semantic-release": "^21.1.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.1.0",
+    "@semantic-release/exec": "^6.0.3"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release"
+  }
+}

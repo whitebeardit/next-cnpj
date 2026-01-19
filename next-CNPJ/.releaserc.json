@@ -1,0 +1,62 @@
+{
+  "branches": [
+    {
+      "name": "main",
+      "prerelease": false
+    }
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          {
+            "breaking": true,
+            "release": "major"
+          },
+          {
+            "type": "feat",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "release": "patch"
+          }
+        ]
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "chmod +x scripts/update-version.sh && scripts/update-version.sh ${nextRelease.version} && dotnet build next-CNPJ/next-CNPJ.csproj --configuration Release --no-restore && dotnet pack next-CNPJ/next-CNPJ.csproj --configuration Release --no-build --output ./artifacts",
+        "publishCmd": "dotnet nuget push ./artifacts/*.nupkg --api-key ${process.env.NUGET_API_KEY} --source https://api.nuget.org/v3/index.json --skip-duplicate"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "CHANGELOG.md",
+          "next-CNPJ/next-CNPJ.csproj"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "failTitle": false,
+        "failComment": false,
+        "labels": false
+      }
+    ]
+  ]
+}
