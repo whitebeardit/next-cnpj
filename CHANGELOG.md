@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/whitebeardit/next-cnpj/compare/v1.0.1...v1.0.2) (2026-01-19)
+
+
+### Bug Fixes
+
+* add by-me-a-cofee ([acd7280](https://github.com/whitebeardit/next-cnpj/commit/acd7280cdff2728e0a3c582df90b3609ac181ddb))
+
 ## [1.0.1](https://github.com/whitebeardit/next-cnpj/compare/v1.0.0...v1.0.1) (2026-01-19)
 
 
