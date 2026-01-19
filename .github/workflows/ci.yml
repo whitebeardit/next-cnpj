@@ -23,15 +23,9 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore next-CNPJ/next-CNPJ.csproj
-
-      - name: Restore test dependencies
         run: dotnet restore next-CNPJ/next-CNPJ.Tests/next-CNPJ.Tests.csproj
 
       - name: Build
-        run: dotnet build next-CNPJ/next-CNPJ.csproj --configuration Release --no-restore
-
-      - name: Build tests
         run: dotnet build next-CNPJ/next-CNPJ.Tests/next-CNPJ.Tests.csproj --configuration Release --no-restore
 
       - name: Test
