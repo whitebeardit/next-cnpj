@@ -111,7 +111,7 @@ var validator = new CnpjValidator();
 // CNPJ com letra excluída (I) - inválido
 var result = validator.Validate("12IBC34501DE35");
 Console.WriteLine(result.IsValid); // false
-Console.WriteLine(result.ErrorMessage); // "A letra 'I' não é permitida..."
+Console.WriteLine(result.ErrorMessage); // "O segmento raiz contém a letra 'I' que não é permitida. Letras excluídas: I, O, U, Q, F."
 ```
 
 ### Configuração Customizada
@@ -330,20 +330,21 @@ Os testes cobrem:
 
 ```
 next-CNPJ/
-├── Core/
-│   ├── Domain/
-│   │   ├── CnpjConfiguration.cs      # Configuração de validação
-│   │   ├── CnpjFormat.cs              # Enum de formato
-│   │   └── CnpjValidationResult.cs   # Resultado da validação
-│   ├── Services/
-│   │   ├── CnpjValidator.cs          # Implementação do validador
-│   │   ├── ICnpjValidator.cs         # Interface do validador
-│   │   ├── CnpjFormatIdentifier.cs   # Identificador de formato
-│   │   └── ICnpjFormatIdentifier.cs  # Interface do identificador
-│   └── Utilities/
-│       ├── AsciiConverter.cs          # Conversão ASCII para cálculo
-│       ├── CnpjNormalizer.cs          # Normalização de CNPJ
-│       └── DigitVerifierCalculator.cs # Cálculo de dígitos verificadores
+└── next-CNPJ/
+    └── Core/
+        ├── Domain/
+        │   ├── CnpjConfiguration.cs      # Configuração de validação
+        │   ├── CnpjFormat.cs              # Enum de formato
+        │   └── CnpjValidationResult.cs   # Resultado da validação
+        ├── Services/
+        │   ├── CnpjValidator.cs          # Implementação do validador
+        │   ├── ICnpjValidator.cs         # Interface do validador
+        │   ├── CnpjFormatIdentifier.cs   # Identificador de formato
+        │   └── ICnpjFormatIdentifier.cs  # Interface do identificador
+        └── Utilities/
+            ├── AsciiConverter.cs          # Conversão ASCII para cálculo
+            ├── CnpjNormalizer.cs          # Normalização de CNPJ
+            └── DigitVerifierCalculator.cs # Cálculo de dígitos verificadores
 ```
 
 ## 🔗 Referências

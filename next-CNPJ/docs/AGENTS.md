@@ -9,7 +9,7 @@ Biblioteca .NET para validação robusta de CNPJ conforme NTC 2025.001, com supo
 
 ## Framework
 
-- Target: .NET Standard 2.1
+- Target: .NET Standard 2.0
 
 ## Documentação
 
