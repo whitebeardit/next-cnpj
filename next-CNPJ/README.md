@@ -16,6 +16,7 @@ The **next-CNPJ** library provides complete CNPJ (Cadastro Nacional da Pessoa Ju
 - ✅ Excluded letters configuration (I, O, U, Q, F according to ENCAT)
 - ✅ Support for CNPJ with or without formatting
 - ✅ Automatic lowercase to uppercase conversion
+- ✅ Rejection of CNPJ with all identical characters (e.g., 00000000000000)
 - ✅ Detailed results with descriptive error messages
 
 ## 🚀 Installation
@@ -140,6 +141,24 @@ var config = new CnpjConfiguration
 };
 
 var result = validator.Validate("12IBC34501DE35", config);
+```
+
+### Invalid CNPJ Patterns
+
+The library rejects CNPJs with all identical characters (including all zeros):
+
+```csharp
+var validator = new CnpjValidator();
+
+// CNPJ with all zeros - invalid
+var result = validator.Validate("00000000000000");
+Console.WriteLine(result.IsValid); // false
+Console.WriteLine(result.ErrorMessage); // "CNPJ inválido: todos os caracteres são iguais."
+
+// CNPJ with all same digits - invalid
+var result2 = validator.Validate("11111111111111");
+Console.WriteLine(result2.IsValid); // false
+Console.WriteLine(result2.ErrorMessage); // "CNPJ inválido: todos os caracteres são iguais."
 ```
 
 ## 🔍 Format Identification
@@ -323,7 +342,7 @@ Tests cover:
 - Check digit calculation
 - Format identification
 - Normalization
-- Error handling
+- Error handling (including rejection of all zeros and identical characters)
 - Custom configurations
 
 ## 📦 Library Structure
