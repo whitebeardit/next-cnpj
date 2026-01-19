@@ -1,3 +1,5 @@
+<a href="https://www.buymeacoffee.com/almerindo" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 # next-CNPJ
 
 .NET library for robust CNPJ validation with support for the new alphanumeric format according to NTC 2025.001.
