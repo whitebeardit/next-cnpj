@@ -126,6 +126,34 @@ namespace next_CNPJ.Tests
             // Assert
             Assert.False(isValid);
         }
+
+        [Fact]
+        public void Validate_CnpjWithAllZeros_ReturnsInvalid()
+        {
+            // Arrange - CNPJ com todos os zeros deve ser inválido
+            var cnpj = "00000000000000";
+
+            // Act
+            var result = _validator.Validate(cnpj);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.Contains("todos os caracteres são iguais", result.ErrorMessage);
+        }
+
+        [Fact]
+        public void Validate_CnpjWithAllSameDigits_ReturnsInvalid()
+        {
+            // Arrange - CNPJ com todos os dígitos iguais deve ser inválido
+            var cnpj = "11111111111111";
+
+            // Act
+            var result = _validator.Validate(cnpj);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.Contains("todos os caracteres são iguais", result.ErrorMessage);
+        }
     }
 
     /// <summary>

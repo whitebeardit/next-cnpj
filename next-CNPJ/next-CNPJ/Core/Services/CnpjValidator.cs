@@ -57,6 +57,15 @@ namespace next_CNPJ.Core.Services
                 );
             }
 
+            // Valida se todos os caracteres são iguais (ex: 00000000000000)
+            if (normalized.All(c => c == normalized[0]))
+            {
+                return new CnpjValidationResult(
+                    "CNPJ inválido: todos os caracteres são iguais.",
+                    normalized
+                );
+            }
+
             // Identifica formato
             var format = _formatIdentifier.IdentifyFormat(normalized);
 
