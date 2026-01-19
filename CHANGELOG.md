@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/whitebeardit/next-cnpj/compare/v1.0.0...v1.0.1) (2026-01-19)
+
+
+### Bug Fixes
+
+* corrige warning de possível referência null em CnpjNormalizer ([41608da](https://github.com/whitebeardit/next-cnpj/commit/41608da039313eb564b3bf8c454525e9e6985408))
+
 # 1.0.0 (2026-01-19)
 
 

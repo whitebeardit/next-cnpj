@@ -11,7 +11,7 @@
     <Description>.NET library for robust CNPJ validation with support for the new alphanumeric format according to NTC 2025.001</Description>
     <PackageId>next-CNPJ</PackageId>
     <PackageId Condition="'$(NUGET_PACKAGE_ID)' != ''">$(NUGET_PACKAGE_ID)</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/whitebeardit/next-cnpj</RepositoryUrl>
     <PackageTags>cnpj;validation;brazil;ntc-2025;alphanumeric;document</PackageTags>
