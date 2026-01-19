@@ -1,52 +1,52 @@
 # next-CNPJ
 
-Biblioteca .NET para validação robusta de CNPJ com suporte ao novo formato alfanumérico conforme NTC 2025.001.
+.NET library for robust CNPJ validation with support for the new alphanumeric format according to NTC 2025.001.
 
-## 📋 Sobre
+## 📋 About
 
-A biblioteca **next-CNPJ** oferece validação completa de CNPJ (Cadastro Nacional da Pessoa Jurídica), incluindo suporte ao novo formato alfanumérico que entrará em vigor. Implementa todas as regras da NTC 2025.001, incluindo cálculo e validação de dígitos verificadores, normalização automática e identificação de formato.
+The **next-CNPJ** library provides complete CNPJ (Cadastro Nacional da Pessoa Jurídica) validation, including support for the new alphanumeric format that will come into effect. It implements all NTC 2025.001 rules, including calculation and validation of check digits, automatic normalization, and format identification.
 
-## ✨ Características
+## ✨ Features
 
-- ✅ Validação de CNPJ numérico (formato tradicional)
-- ✅ Validação de CNPJ alfanumérico (novo formato NTC 2025.001)
-- ✅ Cálculo e validação automática de dígitos verificadores
-- ✅ Normalização automática (remove formatação: pontos, barras, hífens)
-- ✅ Identificação automática de formato (numérico ou alfanumérico)
-- ✅ Configuração de letras excluídas (I, O, U, Q, F conforme ENCAT)
-- ✅ Suporte a CNPJ com ou sem formatação
-- ✅ Conversão automática de letras minúsculas para maiúsculas
-- ✅ Resultados detalhados com mensagens de erro descritivas
+- ✅ Numeric CNPJ validation (traditional format)
+- ✅ Alphanumeric CNPJ validation (new NTC 2025.001 format)
+- ✅ Automatic check digit calculation and validation
+- ✅ Automatic normalization (removes formatting: dots, slashes, hyphens)
+- ✅ Automatic format identification (numeric or alphanumeric)
+- ✅ Excluded letters configuration (I, O, U, Q, F according to ENCAT)
+- ✅ Support for CNPJ with or without formatting
+- ✅ Automatic lowercase to uppercase conversion
+- ✅ Detailed results with descriptive error messages
 
-## 🚀 Instalação
+## 🚀 Installation
 
-Instale o pacote via NuGet:
+Install the package via NuGet:
 
 ```bash
 dotnet add package next-CNPJ
 ```
 
-Ou via Package Manager Console:
+Or via Package Manager Console:
 
 ```powershell
 Install-Package next-CNPJ
 ```
 
-## 📖 Uso Básico
+## 📖 Basic Usage
 
-### Validação Simples
+### Simple Validation
 
 ```csharp
 using next_CNPJ.Core.Services;
 
 var validator = new CnpjValidator();
 
-// Validação simples - retorna true/false
+// Simple validation - returns true/false
 bool isValid = validator.IsValid("11222333000181");
-Console.WriteLine($"CNPJ válido: {isValid}"); // true
+Console.WriteLine($"Valid CNPJ: {isValid}"); // true
 ```
 
-### Validação Detalhada
+### Detailed Validation
 
 ```csharp
 using next_CNPJ.Core.Services;
@@ -54,76 +54,76 @@ using next_CNPJ.Core.Domain;
 
 var validator = new CnpjValidator();
 
-// Validação detalhada - retorna informações completas
+// Detailed validation - returns complete information
 var result = validator.Validate("11222333000181");
 
 if (result.IsValid)
 {
-    Console.WriteLine($"CNPJ válido!");
-    Console.WriteLine($"Formato: {result.Format}"); // Numeric
-    Console.WriteLine($"CNPJ normalizado: {result.NormalizedCnpj}"); // 11222333000181
+    Console.WriteLine($"Valid CNPJ!");
+    Console.WriteLine($"Format: {result.Format}"); // Numeric
+    Console.WriteLine($"Normalized CNPJ: {result.NormalizedCnpj}"); // 11222333000181
 }
 else
 {
-    Console.WriteLine($"Erro: {result.ErrorMessage}");
+    Console.WriteLine($"Error: {result.ErrorMessage}");
 }
 ```
 
-### Validação com Formatação
+### Validation with Formatting
 
-A biblioteca aceita CNPJ com ou sem formatação:
+The library accepts CNPJ with or without formatting:
 
 ```csharp
 var validator = new CnpjValidator();
 
-// Todas essas formas são aceitas:
-validator.IsValid("11222333000181");           // Sem formatação
-validator.IsValid("11.222.333/0001-81");      // Com formatação tradicional
-validator.IsValid("12.ABC.345/01DE-35");      // Formato alfanumérico com formatação
+// All these forms are accepted:
+validator.IsValid("11222333000181");           // Without formatting
+validator.IsValid("11.222.333/0001-81");      // With traditional formatting
+validator.IsValid("12.ABC.345/01DE-35");      // Alphanumeric format with formatting
 ```
 
-## 🔤 CNPJ Alfanumérico
+## 🔤 Alphanumeric CNPJ
 
-### Validação de CNPJ Alfanumérico
+### Alphanumeric CNPJ Validation
 
-O novo formato alfanumérico permite letras na raiz (posições 1-8) ou na ordem (posições 9-12):
+The new alphanumeric format allows letters in the root (positions 1-8) or in the order (positions 9-12):
 
 ```csharp
 var validator = new CnpjValidator();
 
-// Exemplo de CNPJ alfanumérico válido
+// Example of valid alphanumeric CNPJ
 var result = validator.Validate("12ABC34501DE35");
 
 if (result.IsValid)
 {
-    Console.WriteLine($"Formato: {result.Format}"); // Alphanumeric
-    Console.WriteLine($"CNPJ normalizado: {result.NormalizedCnpj}"); // 12ABC34501DE35
+    Console.WriteLine($"Format: {result.Format}"); // Alphanumeric
+    Console.WriteLine($"Normalized CNPJ: {result.NormalizedCnpj}"); // 12ABC34501DE35
 }
 ```
 
-### Letras Excluídas
+### Excluded Letters
 
-Por padrão, as letras I, O, U, Q, F são excluídas conforme especificação técnica do ENCAT:
+By default, the letters I, O, U, Q, F are excluded according to ENCAT technical specification:
 
 ```csharp
 var validator = new CnpjValidator();
 
-// CNPJ com letra excluída (I) - inválido
+// CNPJ with excluded letter (I) - invalid
 var result = validator.Validate("12IBC34501DE35");
 Console.WriteLine(result.IsValid); // false
-Console.WriteLine(result.ErrorMessage); // "O segmento raiz contém a letra 'I' que não é permitida. Letras excluídas: I, O, U, Q, F."
+Console.WriteLine(result.ErrorMessage); // "The root segment contains the letter 'I' which is not allowed. Excluded letters: I, O, U, Q, F."
 ```
 
-### Configuração Customizada
+### Custom Configuration
 
-Você pode customizar as letras excluídas ou permitir todas as letras:
+You can customize excluded letters or allow all letters:
 
 ```csharp
 using next_CNPJ.Core.Domain;
 
 var config = new CnpjConfiguration
 {
-    ExcludedLetters = new[] { 'I', 'O' }, // Apenas I e O excluídas
+    ExcludedLetters = new[] { 'I', 'O' }, // Only I and O excluded
     AllowExcludedLetters = false
 };
 
@@ -131,31 +131,31 @@ var validator = new CnpjValidator();
 var result = validator.Validate("12IBC34501DE35", config);
 ```
 
-Para permitir todas as letras (incluindo as normalmente excluídas):
+To allow all letters (including normally excluded ones):
 
 ```csharp
 var config = new CnpjConfiguration
 {
-    AllowExcludedLetters = true // Permite todas as letras
+    AllowExcludedLetters = true // Allows all letters
 };
 
 var result = validator.Validate("12IBC34501DE35", config);
 ```
 
-## 🔍 Identificação de Formato
+## 🔍 Format Identification
 
-Você pode identificar o formato do CNPJ antes de validar:
+You can identify the CNPJ format before validating:
 
 ```csharp
 using next_CNPJ.Core.Services;
 
 var identifier = new CnpjFormatIdentifier();
 
-// Identificar formato
+// Identify format
 var format = identifier.IdentifyFormat("12ABC34501DE35");
 Console.WriteLine(format); // Alphanumeric
 
-// Verificações rápidas
+// Quick checks
 bool isAlphanumeric = identifier.IsAlphanumeric("12ABC34501DE35"); // true
 bool isNumeric = identifier.IsNumeric("11222333000181"); // true
 ```
@@ -164,47 +164,47 @@ bool isNumeric = identifier.IsNumeric("11222333000181"); // true
 
 ### `ICnpjValidator`
 
-Interface principal para validação de CNPJ.
+Main interface for CNPJ validation.
 
-#### Métodos
+#### Methods
 
 - `bool IsValid(string? cnpj, CnpjConfiguration? config = null)`
-  - Valida um CNPJ e retorna `true` se válido, `false` caso contrário.
+  - Validates a CNPJ and returns `true` if valid, `false` otherwise.
 
 - `CnpjValidationResult Validate(string? cnpj, CnpjConfiguration? config = null)`
-  - Valida um CNPJ e retorna um objeto `CnpjValidationResult` com informações detalhadas.
+  - Validates a CNPJ and returns a `CnpjValidationResult` object with detailed information.
 
 ### `CnpjValidationResult`
 
-Resultado da validação com as seguintes propriedades:
+Validation result with the following properties:
 
-- `bool IsValid` - Indica se o CNPJ é válido
-- `CnpjFormat Format` - Formato identificado (Numeric ou Alphanumeric)
-- `string? ErrorMessage` - Mensagem de erro (null se válido)
-- `string NormalizedCnpj` - CNPJ normalizado (sem formatação)
+- `bool IsValid` - Indicates if the CNPJ is valid
+- `CnpjFormat Format` - Identified format (Numeric or Alphanumeric)
+- `string? ErrorMessage` - Error message (null if valid)
+- `string NormalizedCnpj` - Normalized CNPJ (without formatting)
 
 ### `ICnpjFormatIdentifier`
 
-Interface para identificação do formato do CNPJ.
+Interface for CNPJ format identification.
 
-#### Métodos
+#### Methods
 
-- `CnpjFormat IdentifyFormat(string? cnpj)` - Identifica o formato do CNPJ
-- `bool IsAlphanumeric(string? cnpj)` - Verifica se é alfanumérico
-- `bool IsNumeric(string? cnpj)` - Verifica se é numérico
+- `CnpjFormat IdentifyFormat(string? cnpj)` - Identifies the CNPJ format
+- `bool IsAlphanumeric(string? cnpj)` - Checks if it is alphanumeric
+- `bool IsNumeric(string? cnpj)` - Checks if it is numeric
 
 ### `CnpjConfiguration`
 
-Configuração para validação customizada.
+Configuration for custom validation.
 
-#### Propriedades
+#### Properties
 
-- `char[] ExcludedLetters` - Letras que não devem ser aceitas (padrão: I, O, U, Q, F)
-- `bool AllowExcludedLetters` - Permite letras excluídas mesmo que estejam na lista (padrão: false)
+- `char[] ExcludedLetters` - Letters that should not be accepted (default: I, O, U, Q, F)
+- `bool AllowExcludedLetters` - Allows excluded letters even if they are in the list (default: false)
 
-## 💡 Casos de Uso
+## 💡 Use Cases
 
-### 1. Validação em Formulários Web
+### 1. Web Form Validation
 
 ```csharp
 public class CnpjValidationService
@@ -239,7 +239,7 @@ public class CnpjValidationService
 }
 ```
 
-### 2. Processamento em Lote
+### 2. Batch Processing
 
 ```csharp
 public void ValidateBatch(IEnumerable<string> cnpjList)
@@ -264,7 +264,7 @@ public void ValidateBatch(IEnumerable<string> cnpjList)
 }
 ```
 
-### 3. Integração com APIs
+### 3. API Integration
 
 ```csharp
 [HttpPost("validate")]
@@ -291,7 +291,7 @@ public IActionResult ValidateCnpj([FromBody] CnpjRequest request)
 }
 ```
 
-### 4. Normalização para Armazenamento
+### 4. Normalization for Storage
 
 ```csharp
 public string NormalizeCnpjForStorage(string cnpj)
@@ -301,61 +301,61 @@ public string NormalizeCnpjForStorage(string cnpj)
     
     if (result.IsValid)
     {
-        // Armazena sempre normalizado (sem formatação)
+        // Always store normalized (without formatting)
         return result.NormalizedCnpj;
     }
     
-    throw new ArgumentException($"CNPJ inválido: {result.ErrorMessage}");
+    throw new ArgumentException($"Invalid CNPJ: {result.ErrorMessage}");
 }
 ```
 
-## 🧪 Testes
+## 🧪 Testing
 
-A biblioteca inclui uma suíte completa de testes. Para executar:
+The library includes a complete test suite. To run:
 
 ```bash
 dotnet test
 ```
 
-Os testes cobrem:
-- Validação de CNPJ numérico (formato tradicional)
-- Validação de CNPJ alfanumérico (novo formato)
-- Cálculo de dígitos verificadores
-- Identificação de formato
-- Normalização
-- Tratamento de erros
-- Configurações customizadas
+Tests cover:
+- Numeric CNPJ validation (traditional format)
+- Alphanumeric CNPJ validation (new format)
+- Check digit calculation
+- Format identification
+- Normalization
+- Error handling
+- Custom configurations
 
-## 📦 Estrutura da Biblioteca
+## 📦 Library Structure
 
 ```
 next-CNPJ/
 └── next-CNPJ/
     └── Core/
         ├── Domain/
-        │   ├── CnpjConfiguration.cs      # Configuração de validação
-        │   ├── CnpjFormat.cs              # Enum de formato
-        │   └── CnpjValidationResult.cs   # Resultado da validação
+        │   ├── CnpjConfiguration.cs      # Validation configuration
+        │   ├── CnpjFormat.cs              # Format enum
+        │   └── CnpjValidationResult.cs   # Validation result
         ├── Services/
-        │   ├── CnpjValidator.cs          # Implementação do validador
-        │   ├── ICnpjValidator.cs         # Interface do validador
-        │   ├── CnpjFormatIdentifier.cs   # Identificador de formato
-        │   └── ICnpjFormatIdentifier.cs  # Interface do identificador
+        │   ├── CnpjValidator.cs          # Validator implementation
+        │   ├── ICnpjValidator.cs         # Validator interface
+        │   ├── CnpjFormatIdentifier.cs   # Format identifier
+        │   └── ICnpjFormatIdentifier.cs  # Format identifier interface
         └── Utilities/
-            ├── AsciiConverter.cs          # Conversão ASCII para cálculo
-            ├── CnpjNormalizer.cs          # Normalização de CNPJ
-            └── DigitVerifierCalculator.cs # Cálculo de dígitos verificadores
+            ├── AsciiConverter.cs          # ASCII conversion for calculation
+            ├── CnpjNormalizer.cs          # CNPJ normalization
+            └── DigitVerifierCalculator.cs # Check digit calculation
 ```
 
-## 🔗 Referências
+## 🔗 References
 
-- NTC 2025.001 - Especificação técnica do novo formato de CNPJ
-- ENCAT - Especificação de letras excluídas
+- NTC 2025.001 - Technical specification for the new CNPJ format
+- ENCAT - Excluded letters specification
 
-## 📄 Licença
+## 📄 License
 
-[Adicione informações de licença aqui]
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
-## 🤝 Contribuindo
+## 🤝 Contributing
 
-Contribuições são bem-vindas! Por favor, abra uma issue ou pull request.
+Contributions are welcome! Please open an issue or pull request.

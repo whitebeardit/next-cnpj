@@ -1,16 +1,16 @@
 # next-CNPJ
 
-Biblioteca .NET para validação robusta de CNPJ conforme NTC 2025.001, com suporte ao formato numérico tradicional e ao novo formato alfanumérico.
+.NET library for robust CNPJ validation according to NTC 2025.001, with support for traditional numeric format and the new alphanumeric format.
 
-## Build e Testes
+## Build and Tests
 
 - Build: `dotnet build`
-- Testes: `dotnet test`
+- Tests: `dotnet test`
 
 ## Framework
 
 - Target: .NET Standard 2.0
 
-## Documentação
+## Documentation
 
-Para documentação completa, exemplos de uso e casos de uso, consulte o [README.md](../README.md) na raiz do projeto.
+For complete documentation, usage examples, and use cases, see the [README.md](../README.md) at the project root.
