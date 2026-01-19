@@ -23,13 +23,19 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore next-CNPJ/next-CNPJ.csproj
+
+      - name: Restore test dependencies
+        run: dotnet restore next-CNPJ/next-CNPJ.Tests/next-CNPJ.Tests.csproj
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build next-CNPJ/next-CNPJ.csproj --configuration Release --no-restore
+
+      - name: Build tests
+        run: dotnet build next-CNPJ/next-CNPJ.Tests/next-CNPJ.Tests.csproj --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal
+        run: dotnet test next-CNPJ/next-CNPJ.Tests/next-CNPJ.Tests.csproj --configuration Release --no-build --verbosity normal
 
   release:
     needs: [build-and-test]
@@ -59,10 +65,10 @@ jobs:
         run: npm ci
 
       - name: Restore .NET dependencies
-        run: dotnet restore
+        run: dotnet restore next-CNPJ/next-CNPJ.csproj
 
       - name: Build .NET project
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build next-CNPJ/next-CNPJ.csproj --configuration Release --no-restore
 
       - name: Configure Git user
         run: |

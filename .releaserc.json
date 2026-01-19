@@ -36,7 +36,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "chmod +x scripts/update-version.sh && scripts/update-version.sh ${nextRelease.version} && dotnet build next-CNPJ/next-CNPJ.csproj --configuration Release --no-restore && dotnet pack next-CNPJ/next-CNPJ.csproj --configuration Release --no-build --output ./artifacts",
+        "prepareCmd": "chmod +x next-CNPJ/scripts/update-version.sh && next-CNPJ/scripts/update-version.sh ${nextRelease.version} && dotnet build next-CNPJ/next-CNPJ.csproj --configuration Release --no-restore && dotnet pack next-CNPJ/next-CNPJ.csproj --configuration Release --no-build --output ./artifacts",
         "publishCmd": "dotnet nuget push ./artifacts/*.nupkg --api-key ${process.env.NUGET_API_KEY} --source https://api.nuget.org/v3/index.json --skip-duplicate"
       }
     ],
