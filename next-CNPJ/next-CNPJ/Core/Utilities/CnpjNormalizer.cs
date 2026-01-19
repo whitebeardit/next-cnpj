@@ -21,7 +21,7 @@ namespace next_CNPJ.Core.Utilities
 
             var normalized = new StringBuilder();
             
-            foreach (var character in cnpj)
+            foreach (var character in cnpj!)
             {
                 if (char.IsLetterOrDigit(character))
                 {
