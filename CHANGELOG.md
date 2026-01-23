@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/whitebeardit/next-cnpj/compare/v1.0.2...v1.1.0) (2026-01-23)
+
+
+### Features
+
+* **utils:** add CNPJ formatting with mask ([efa056c](https://github.com/whitebeardit/next-cnpj/commit/efa056c13f63387815aa21747e8201b2b6e79abe))
+
 ## [1.0.2](https://github.com/whitebeardit/next-cnpj/compare/v1.0.1...v1.0.2) (2026-01-19)
 
 
