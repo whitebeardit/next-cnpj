@@ -75,7 +75,7 @@ namespace next_CNPJ.Core.Services
             var digits = normalized.Substring(DigitStartIndex);
 
             // Valida dígitos verificadores (devem ser numéricos)
-            if (!digits.All(char.IsDigit))
+            if (!digits.All(IsAsciiDigit))
             {
                 return new CnpjValidationResult(
                     "Os dígitos verificadores (posições 13 e 14) devem ser exclusivamente numéricos.",
@@ -133,8 +133,8 @@ namespace next_CNPJ.Core.Services
         {
             foreach (var character in segment)
             {
-                // Verifica se é alfanumérico
-                if (!char.IsLetterOrDigit(character))
+                // Verifica se segue [A-Z0-9], alinhado ao validador oficial da Receita Federal.
+                if (!IsAsciiUppercaseLetterOrDigit(character))
                 {
                     return new CnpjValidationResult(
                         $"O segmento {segmentName} contém caracteres inválidos. Apenas letras (A-Z) e números (0-9) são permitidos.",
@@ -142,17 +142,29 @@ namespace next_CNPJ.Core.Services
                     );
                 }
 
-                // Se for letra, verifica se está na lista de excluídas
-                if (char.IsLetter(character) && config.IsLetterExcluded(character))
+                if (config.ValidateExcludedLetters &&
+                    character >= 'A' &&
+                    character <= 'Z' &&
+                    config.IsLetterExcluded(character))
                 {
                     return new CnpjValidationResult(
-                        $"O segmento {segmentName} contém a letra '{character}' que não é permitida. Letras excluídas: {string.Join(", ", config.ExcludedLetters)}.",
+                        $"O segmento {segmentName} contém a letra '{character}' que não é permitida pela validação da norma técnica. Letras excluídas: {string.Join(", ", config.ExcludedLetters)}.",
                         string.Empty
                     );
                 }
             }
 
             return new CnpjValidationResult(CnpjFormat.Numeric, segment);
+        }
+
+        private static bool IsAsciiUppercaseLetterOrDigit(char character)
+        {
+            return (character >= 'A' && character <= 'Z') || IsAsciiDigit(character);
+        }
+
+        private static bool IsAsciiDigit(char character)
+        {
+            return character >= '0' && character <= '9';
         }
     }
 }

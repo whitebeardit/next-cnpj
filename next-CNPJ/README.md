@@ -102,46 +102,45 @@ if (result.IsValid)
 }
 ```
 
-### Excluded Letters
+### Official Validator Behavior
 
-By default, the letters I, O, U, Q, F are excluded according to ENCAT technical specification:
+The validator follows the current behavior of the official Receita Federal validator and accepts any uppercase letter (`A-Z`) or digit in the first 12 positions of an alphanumeric CNPJ:
+
+```regex
+[A-Z0-9]{12}[0-9]{2}
+```
+
+For example, the CNPJ below contains the letters `O` and is valid when its check digits match:
 
 ```csharp
 var validator = new CnpjValidator();
 
-// CNPJ with excluded letter (I) - invalid
-var result = validator.Validate("12IBC34501DE35");
-Console.WriteLine(result.IsValid); // false
-Console.WriteLine(result.ErrorMessage); // "The root segment contains the letter 'I' which is not allowed. Excluded letters: I, O, U, Q, F."
+var result = validator.Validate("0G3BYOOH000158");
+Console.WriteLine(result.IsValid); // true
 ```
 
-### Custom Configuration
+The letters I, O, U, Q, and F were mentioned in the NT as depending on Receita Federal confirmation. Because the official validator accepts them, the library does not reject those letters to avoid false negatives.
 
-You can customize excluded letters or allow all letters:
+
+### Optional Technical Standard Letter Validation
+
+If you need to enforce the historical NT restriction for the letters I, O, U, Q, and F, enable it explicitly through `CnpjConfiguration`:
 
 ```csharp
 using next_CNPJ.Core.Domain;
-
-var config = new CnpjConfiguration
-{
-    ExcludedLetters = new[] { 'I', 'O' }, // Only I and O excluded
-    AllowExcludedLetters = false
-};
+using next_CNPJ.Core.Services;
 
 var validator = new CnpjValidator();
-var result = validator.Validate("12IBC34501DE35", config);
-```
-
-To allow all letters (including normally excluded ones):
-
-```csharp
 var config = new CnpjConfiguration
 {
-    AllowExcludedLetters = true // Allows all letters
+    ValidateExcludedLetters = true
 };
 
-var result = validator.Validate("12IBC34501DE35", config);
+var result = validator.Validate("0G3BYOOH000158", config);
+Console.WriteLine(result.IsValid); // false
 ```
+
+This option is disabled by default so the library remains aligned with the official Receita Federal validator.
 
 ### Invalid CNPJ Patterns
 

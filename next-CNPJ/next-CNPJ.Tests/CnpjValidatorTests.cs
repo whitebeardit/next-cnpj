@@ -214,78 +214,46 @@ namespace next_CNPJ.Tests
         }
 
         [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterI_ReturnsInvalid()
+        public void Validate_AlphanumericCnpj_WithPreviouslyExcludedLetters_ReturnsValid()
         {
-            // Arrange
-            var cnpj = "12IBC34501DE35"; // I está excluída
+            // Arrange - Validador oficial da Receita Federal aceita I, O, U, Q e F nas 12 primeiras posições.
+            var cnpj = "0G3BYOOH000158";
 
             // Act
             var result = _validator.Validate(cnpj);
 
             // Assert
-            Assert.False(result.IsValid);
-            Assert.Contains("não é permitida", result.ErrorMessage);
+            Assert.True(result.IsValid);
+            Assert.Equal(CnpjFormat.Alphanumeric, result.Format);
+            Assert.Equal(cnpj, result.NormalizedCnpj);
         }
 
         [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterO_ReturnsInvalid()
+        public void Validate_AlphanumericCnpj_WithNtExcludedLetterValidation_ReturnsInvalid()
         {
             // Arrange
-            var cnpj = "12OBC34501DE35"; // O está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterU_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12UBC34501DE35"; // U está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterQ_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12QBC34501DE35"; // Q está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterF_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12FBC34501DE35"; // F está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetters_ButAllowed_ReturnsValid()
-        {
-            // Arrange
-            var cnpj = "12IBC34501DE35";
+            var cnpj = "0G3BYOOH000158";
             var config = new CnpjConfiguration
             {
+                ValidateExcludedLetters = true
+            };
+
+            // Act
+            var result = _validator.Validate(cnpj, config);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.Contains("norma técnica", result.ErrorMessage);
+        }
+
+        [Fact]
+        public void Validate_AlphanumericCnpj_WithNtExcludedLetterValidationButAllowed_ReturnsValid()
+        {
+            // Arrange
+            var cnpj = "0G3BYOOH000158";
+            var config = new CnpjConfiguration
+            {
+                ValidateExcludedLetters = true,
                 AllowExcludedLetters = true
             };
 
@@ -293,9 +261,21 @@ namespace next_CNPJ.Tests
             var result = _validator.Validate(cnpj, config);
 
             // Assert
-            // Pode ser válido se o DV estiver correto, mas neste caso provavelmente não estará
-            // O importante é que não rejeite por causa da letra excluída
-            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+        }
+
+        [Fact]
+        public void Validate_AlphanumericCnpj_WithNonAsciiLetter_ReturnsInvalid()
+        {
+            // Arrange - A estrutura aceita apenas [A-Z0-9]{12}[0-9]{2}.
+            var cnpj = "12ÁBC34501DE35";
+
+            // Act
+            var result = _validator.Validate(cnpj);
+
+            // Assert
+            Assert.False(result.IsValid);
+            Assert.Contains("A-Z", result.ErrorMessage);
         }
 
         [Fact]
