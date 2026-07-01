@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/whitebeardit/next-cnpj/compare/v1.1.0...v1.2.0) (2026-07-01)
+
+
+### Bug Fixes
+
+* Rollback semantic-release version ([d3d435b](https://github.com/whitebeardit/next-cnpj/commit/d3d435b3f227385ff0b4c11f67476c5082b9eeec))
+* Rollback semantic-release version ([a028c3f](https://github.com/whitebeardit/next-cnpj/commit/a028c3fa9740d684c5aa6248783051fefb67910f))
+
+
+### Features
+
+* Set AllowExcludedLetters true by default ([99785c9](https://github.com/whitebeardit/next-cnpj/commit/99785c90213d5711ba9900e178875bb6ebfe9aa0))
+
 # [1.1.0](https://github.com/whitebeardit/next-cnpj/compare/v1.0.2...v1.1.0) (2026-01-23)
 
 
