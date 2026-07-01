@@ -15,7 +15,7 @@ namespace next_CNPJ.Core.Domain
 
         /// <summary>
         /// Flag para permitir letras excluídas mesmo que estejam na lista.
-        /// Padrão: false (não permite letras excluídas).
+        /// Padrão: true (permite letras excluídas).
         /// </summary>
         public bool AllowExcludedLetters { get; set; }
 
@@ -25,7 +25,7 @@ namespace next_CNPJ.Core.Domain
         public CnpjConfiguration()
         {
             ExcludedLetters = new[] { 'I', 'O', 'U', 'Q', 'F' };
-            AllowExcludedLetters = false;
+            AllowExcludedLetters = true;
         }
 
         /// <summary>

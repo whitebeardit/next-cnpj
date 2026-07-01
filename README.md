@@ -106,20 +106,24 @@ if (result.IsValid)
 
 ### Excluded Letters
 
-By default, the letters I, O, U, Q, F are excluded according to ENCAT technical specification:
+The letters I, O, U, Q, F are listed as excluded according to ENCAT technical specification, but **allowed by default**. Set `AllowExcludedLetters = false` to enforce the exclusion list:
 
 ```csharp
 var validator = new CnpjValidator();
 
-// CNPJ with excluded letter (I) - invalid
+// Default: excluded letters are allowed (validation may still fail on check digits)
 var result = validator.Validate("12IBC34501DE35");
-Console.WriteLine(result.IsValid); // false
-Console.WriteLine(result.ErrorMessage); // "The root segment contains the letter 'I' which is not allowed. Excluded letters: I, O, U, Q, F."
+
+// Enforce excluded letters
+var strictConfig = new CnpjConfiguration { AllowExcludedLetters = false };
+var strictResult = validator.Validate("12IBC34501DE35", strictConfig);
+Console.WriteLine(strictResult.IsValid); // false
+Console.WriteLine(strictResult.ErrorMessage); // "The root segment contains the letter 'I' which is not allowed. Excluded letters: I, O, U, Q, F."
 ```
 
 ### Custom Configuration
 
-You can customize excluded letters or allow all letters:
+You can customize which letters are excluded when enforcement is enabled:
 
 ```csharp
 using next_CNPJ.Core.Domain;
@@ -131,17 +135,6 @@ var config = new CnpjConfiguration
 };
 
 var validator = new CnpjValidator();
-var result = validator.Validate("12IBC34501DE35", config);
-```
-
-To allow all letters (including normally excluded ones):
-
-```csharp
-var config = new CnpjConfiguration
-{
-    AllowExcludedLetters = true // Allows all letters
-};
-
 var result = validator.Validate("12IBC34501DE35", config);
 ```
 
@@ -221,7 +214,7 @@ Configuration for custom validation.
 #### Properties
 
 - `char[] ExcludedLetters` - Letters that should not be accepted (default: I, O, U, Q, F)
-- `bool AllowExcludedLetters` - Allows excluded letters even if they are in the list (default: false)
+- `bool AllowExcludedLetters` - Allows excluded letters even if they are in the list (default: true)
 
 ## 💡 Use Cases
 

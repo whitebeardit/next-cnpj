@@ -214,88 +214,35 @@ namespace next_CNPJ.Tests
         }
 
         [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterI_ReturnsInvalid()
+        public void Validate_AlphanumericCnpj_WithExcludedLetter_DefaultConfig_DoesNotRejectExcludedLetter()
         {
-            // Arrange
-            var cnpj = "12IBC34501DE35"; // I está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-            Assert.Contains("não é permitida", result.ErrorMessage);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterO_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12OBC34501DE35"; // O está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterU_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12UBC34501DE35"; // U está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterQ_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12QBC34501DE35"; // Q está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetterF_ReturnsInvalid()
-        {
-            // Arrange
-            var cnpj = "12FBC34501DE35"; // F está excluída
-
-            // Act
-            var result = _validator.Validate(cnpj);
-
-            // Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public void Validate_AlphanumericCnpj_WithExcludedLetters_ButAllowed_ReturnsValid()
-        {
-            // Arrange
+            // Arrange - por padrão, letras excluídas são permitidas
             var cnpj = "12IBC34501DE35";
-            var config = new CnpjConfiguration
-            {
-                AllowExcludedLetters = true
-            };
+
+            // Act
+            var result = _validator.Validate(cnpj);
+
+            // Assert
+            Assert.DoesNotContain("não é permitida", result.ErrorMessage ?? string.Empty);
+        }
+
+        [Theory]
+        [InlineData("12IBC34501DE35")] // I está excluída
+        [InlineData("12OBC34501DE35")] // O está excluída
+        [InlineData("12UBC34501DE35")] // U está excluída
+        [InlineData("12QBC34501DE35")] // Q está excluída
+        [InlineData("12FBC34501DE35")] // F está excluída
+        public void Validate_AlphanumericCnpj_WithExcludedLetter_WhenNotAllowed_ReturnsInvalid(string cnpj)
+        {
+            // Arrange
+            var config = new CnpjConfiguration { AllowExcludedLetters = false };
 
             // Act
             var result = _validator.Validate(cnpj, config);
 
             // Assert
-            // Pode ser válido se o DV estiver correto, mas neste caso provavelmente não estará
-            // O importante é que não rejeite por causa da letra excluída
-            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.Contains("não é permitida", result.ErrorMessage);
         }
 
         [Fact]
